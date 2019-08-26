@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 const Navbar = () => {
   return (
     <div>
-      <AppBar position='static'>
+      <AppBar position='static' style={{ marginBottom: 10 }}>
         <Toolbar>
           <Typography variant='h6'>Pixabay Image Finder</Typography>
         </Toolbar>

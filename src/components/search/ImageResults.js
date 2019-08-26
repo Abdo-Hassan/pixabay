@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -76,21 +77,27 @@ const useStyles = makeStyles(theme => ({
     bottom: -2,
     left: 'calc(50% - 9px)',
     transition: theme.transitions.create('opacity')
+  },
+  title: {
+    textAlign: 'center'
   }
 }));
-const ImageResults = ({ images }) => {
+const ImageResults = ({ images, search }) => {
   const classes = useStyles();
 
   let imageListContent;
   if (images) {
     imageListContent = (
       <Fragment>
+        <Divider />
+        <p className={classes.title}>
+          Images For <span>{search.searchText}</span>
+        </p>
         <Grid container>
           {images.map(image => (
-            <Grid item md={4}>
+            <Grid item md={4} sm={6} xs={12} key={image.id}>
               <ButtonBase
                 focusRipple
-                key={image.id}
                 className={classes.image}
                 focusVisibleClassName={classes.focusVisible}
                 style={{

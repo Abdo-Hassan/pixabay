@@ -8,11 +8,10 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import axios from 'axios';
 import ImageResults from './ImageResults';
-import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   container: {
-    margin: 10
+    marginLeft: 10
   },
   textField: {
     marginBottom: theme.spacing(2)
@@ -34,13 +33,15 @@ const Search = () => {
 
   const { searchText, amount, apiUrl, apiKey, images } = search;
 
-  const searchPhotos = () => {
+  const searchPhotos = (term, amnt = amount) => {
+    setSearch(s => ({ ...s, searchText: term }));
     axios
       .get(
-        `${apiUrl}/?key=${apiKey}&q=${searchText}&image_type=photo&per_page=${amount}&safesearch=true`
+        `${apiUrl}/?key=${apiKey}&q=${term}&image_type=photo&per_page=${amnt}&safesearch=true`
       )
       .then(res => {
-        setSearch({ ...search, images: res.data.hits });
+        setSearch(s => ({ ...s, images: res.data.hits }));
+        // console.log(searchText);
       })
       .catch(err => console.log(err));
   };
@@ -53,47 +54,42 @@ const Search = () => {
           className={classes.textField}
           placeholder='Search...'
           value={searchText}
-          name='searchText'
-          onChange={e =>
-            setSearch({ ...search, [e.target.name]: e.target.value })
-          }
+          onChange={e => searchPhotos(e.target.value)}
           margin='normal'
           autoFocus
           fullWidth
         />
         <div>
+          {console.log(amount)}
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor='amount-simple'>Amount</InputLabel>
             <Select
               className={classes.select}
               value={amount}
-              onChange={e => setSearch({ ...search, amount: e.target.value })}
+              onChange={e => {
+                console.log(e.target.value);
+                setSearch(s => ({ ...s, amount: e.target.value }));
+                searchPhotos(searchText, e.target.value);
+              }}
               inputProps={{
                 name: 'amount',
                 id: 'amount-simple'
               }}
             >
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={9}>9</MenuItem>
               <MenuItem value={15}>15</MenuItem>
               <MenuItem value={30}>30</MenuItem>
-              <MenuItem value={50}>50</MenuItem>
+              <MenuItem value={60}>60</MenuItem>
+              <MenuItem value={90}>90</MenuItem>
+              <MenuItem value={120}>120</MenuItem>
             </Select>
           </FormControl>
         </div>
-        <Button
-          variant='contained'
-          color='primary'
-          style={{ margin: '20px 0' }}
-          onClick={searchPhotos}
-        >
-          Search
-        </Button>
-        <Typography variant='h3' gutterBottom>
-          Images For {images.tags}
-        </Typography>
       </div>
-      {images.length > 0 ? <ImageResults images={images} /> : null}
+      {images.length > 0 ? (
+        <ImageResults images={images} search={search} />
+      ) : null}
     </div>
   );
 };

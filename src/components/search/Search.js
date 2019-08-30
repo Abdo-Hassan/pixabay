@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import axios from 'axios';
 import ImageResults from './ImageResults';
@@ -33,15 +32,14 @@ const Search = () => {
 
   const { searchText, amount, apiUrl, apiKey, images } = search;
 
-  const searchPhotos = (term, amnt = amount) => {
-    setSearch(s => ({ ...s, searchText: term }));
+  const searchPhotos = (term, amount) => {
+    setSearch(search => ({ ...search, searchText: term }));
     axios
       .get(
-        `${apiUrl}/?key=${apiKey}&q=${term}&image_type=photo&per_page=${amnt}&safesearch=true`
+        `${apiUrl}/?key=${apiKey}&q=${term}&image_type=photo&per_page=${amount}&safesearch=true`
       )
       .then(res => {
-        setSearch(s => ({ ...s, images: res.data.hits }));
-        // console.log(searchText);
+        setSearch(search => ({ ...search, images: res.data.hits }));
       })
       .catch(err => console.log(err));
   };
@@ -60,15 +58,13 @@ const Search = () => {
           fullWidth
         />
         <div>
-          {console.log(amount)}
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor='amount-simple'>Amount</InputLabel>
             <Select
               className={classes.select}
               value={amount}
               onChange={e => {
-                console.log(e.target.value);
-                setSearch(s => ({ ...s, amount: e.target.value }));
+                setSearch(search => ({ ...search, amount: e.target.value }));
                 searchPhotos(searchText, e.target.value);
               }}
               inputProps={{

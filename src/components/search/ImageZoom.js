@@ -6,23 +6,21 @@ import DialogContent from '@material-ui/core/DialogContent';
 
 const ImageZoom = ({ open, image, handleClose }) => {
   return (
-    <div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogContent>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet laboriosam recusandae vero fugit nam temporibus enim voluptatum ipsum fuga error.</p>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color='primary' autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby='alert-dialog-title'
+      aria-describedby='alert-dialog-description'
+    >
+      <DialogContent>
+        <img src={image} alt='pic' style={{ width: 500 }} />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color='primary' autoFocus>
+          Agree
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

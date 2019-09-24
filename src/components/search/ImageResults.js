@@ -86,9 +86,11 @@ const useStyles = makeStyles(theme => ({
 }));
 const ImageResults = ({ images, search }) => {
   const [open, setOpen] = useState(false);
+  const [currentImage, setCurrentImage] = useState(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = image => {
     setOpen(true);
+    setCurrentImage(image);
   };
 
   const handleClose = () => {
@@ -106,51 +108,57 @@ const ImageResults = ({ images, search }) => {
           Images For <span>{search.searchText}</span>
         </p>
         <Grid container>
-          {images.map(image => (
-            <Grid item md={4} sm={6} xs={12} key={image.id}>
-              <ButtonBase
-                onClick={handleClickOpen}
-                focusRipple
-                className={classes.image}
-                focusVisibleClassName={classes.focusVisible}
-                style={{
-                  width: '100%'
-                }}
-              >
-                <ImageZoom
-                  image={image.largeImageURL}
-                  open={open}
-                  handleClose={handleClose}
-                  handleClickOpen={handleClickOpen}
-                />
-                <span
-                  className={classes.imageSrc}
+          {images.map(image => {
+            return (
+              <Grid item md={4} sm={6} xs={12} key={image.id}>
+                <ButtonBase
+                  onClick={() => handleClickOpen(image.largeImageURL)}
+                  focusRipple
+                  className={classes.image}
+                  focusVisibleClassName={classes.focusVisible}
                   style={{
-                    backgroundImage: `url(${image.largeImageURL})`
+                    width: '100%'
                   }}
-                />
-                <span className={classes.imageBackdrop} />
-                <span className={classes.imageButton}>
-                  <Typography
-                    component='span'
-                    variant='subtitle1'
-                    color='inherit'
-                    className={classes.imageTitle}
-                  >
-                    {image.tags}
-                    <span className={classes.imageMarked} />
-                  </Typography>
-                </span>
-              </ButtonBase>
-            </Grid>
-          ))}
+                >
+                  <span
+                    className={classes.imageSrc}
+                    style={{
+                      backgroundImage: `url(${image.largeImageURL})`
+                    }}
+                  />
+                  <span className={classes.imageBackdrop} />
+                  <span className={classes.imageButton}>
+                    <Typography
+                      component='span'
+                      variant='subtitle1'
+                      color='inherit'
+                      className={classes.imageTitle}
+                    >
+                      {image.tags}
+                      <span className={classes.imageMarked} />
+                    </Typography>
+                  </span>
+                </ButtonBase>
+              </Grid>
+            );
+          })}
         </Grid>
       </Fragment>
     );
   } else {
     imageListContent = <p>no images here</p>;
   }
-  return <div>{imageListContent}</div>;
+  return (
+    <div>
+      {imageListContent}
+      <ImageZoom
+        image={currentImage}
+        open={open}
+        handleClose={handleClose}
+        handleClickOpen={handleClickOpen}
+      />
+    </div>
+  );
 };
 
 ImageResults.propTypes = {

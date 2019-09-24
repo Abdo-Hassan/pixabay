@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
+import ImageZoom from './ImageZoom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -84,6 +85,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 const ImageResults = ({ images, search }) => {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const classes = useStyles();
 
   let imageListContent;
@@ -98,6 +109,7 @@ const ImageResults = ({ images, search }) => {
           {images.map(image => (
             <Grid item md={4} sm={6} xs={12} key={image.id}>
               <ButtonBase
+                onClick={handleClickOpen}
                 focusRipple
                 className={classes.image}
                 focusVisibleClassName={classes.focusVisible}
@@ -105,6 +117,12 @@ const ImageResults = ({ images, search }) => {
                   width: '100%'
                 }}
               >
+                <ImageZoom
+                  image={image.largeImageURL}
+                  open={open}
+                  handleClose={handleClose}
+                  handleClickOpen={handleClickOpen}
+                />
                 <span
                   className={classes.imageSrc}
                   style={{

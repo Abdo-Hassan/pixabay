@@ -34,14 +34,18 @@ const Search = () => {
 
   const searchPhotos = (term, amount) => {
     setSearch(search => ({ ...search, searchText: term }));
-    axios
-      .get(
-        `${apiUrl}/?key=${apiKey}&q=${term}&image_type=photo&per_page=${amount}&safesearch=true`
-      )
-      .then(res => {
-        setSearch(search => ({ ...search, images: res.data.hits }));
-      })
-      .catch(err => console.log(err));
+    if (term === '') {
+      setSearch(search => ({ ...search, images: [] }));
+    } else {
+      axios
+        .get(
+          `${apiUrl}/?key=${apiKey}&q=${term}&image_type=photo&per_page=${amount}&safesearch=true`
+        )
+        .then(res => {
+          setSearch(search => ({ ...search, images: res.data.hits }));
+        })
+        .catch(err => console.log(err));
+    }
   };
 
   return (

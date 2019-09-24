@@ -81,7 +81,9 @@ const useStyles = makeStyles(theme => ({
     transition: theme.transitions.create('opacity')
   },
   title: {
-    textAlign: 'center'
+    textAlign: 'center',
+    fontSize: 30,
+    fontWeight: 'bold'
   }
 }));
 const ImageResults = ({ images, search }) => {
@@ -105,7 +107,8 @@ const ImageResults = ({ images, search }) => {
       <Fragment>
         <Divider />
         <p className={classes.title}>
-          Images For <span>{search.searchText}</span>
+          Images For{' '}
+          <span style={{ color: '#3F51B5' }}>{search.searchText}</span>
         </p>
         <Grid container>
           {images.map(image => {

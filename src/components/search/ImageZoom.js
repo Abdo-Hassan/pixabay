@@ -17,7 +17,7 @@ const ImageZoom = ({ open, image, handleClose }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color='primary' autoFocus>
-          Agree
+          Close
         </Button>
       </DialogActions>
     </Dialog>

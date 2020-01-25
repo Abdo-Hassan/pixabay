@@ -54,12 +54,12 @@ const Search = () => {
         <TextField
           id='standard-name'
           className={classes.textField}
+          style={{ width: '98%' }}
           placeholder='Search...'
           value={searchText}
           onChange={e => searchPhotos(e.target.value)}
           margin='normal'
           autoFocus
-          fullWidth
         />
         <div>
           <FormControl className={classes.formControl}>

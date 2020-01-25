@@ -8,12 +8,18 @@ const ImageZoom = ({ open, image, handleClose }) => {
   return (
     <Dialog
       open={open}
+      maxWidth='sm'
       onClose={handleClose}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
+      PaperProps={{
+        style: {
+          margin: 10
+        }
+      }}
     >
-      <DialogContent>
-        <img src={image} alt='pic' style={{ width: 500 }} />
+      <DialogContent style={{ padding: 0 }}>
+        <img src={image} alt='pic' style={{ maxWidth: '100%' }} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color='primary' autoFocus>
